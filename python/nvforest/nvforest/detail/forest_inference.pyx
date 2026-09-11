@@ -303,6 +303,7 @@ class ForestInferenceImpl:
                 previous_device.set_current()
         else:
             assert device == "cpu"
+            stream = None
         if device == "gpu" and stream.device.device_id != device_id:
             raise ValueError(
                 f"stream is associated with device {stream.device.device_id}, "
