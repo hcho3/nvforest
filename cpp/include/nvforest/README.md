@@ -98,7 +98,6 @@ auto output = static_cast<float*>(nullptr);  // Loaded as single
 cudaMalloc((void**)&output, num_rows * num_outputs * sizeof(float));
 
 // Assuming that input is a float* pointing to data already located on-device
-auto stream = cudaStream_t{};
 nvforest_model.predict(
   stream,
   output,

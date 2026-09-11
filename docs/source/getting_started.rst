@@ -252,6 +252,8 @@ Once the tree model is available as a Treelite object, pass it to the
     #include <cuda_runtime_api.h>
     #include <optional>
 
+    constexpr int device_id = 0;
+    cudaSetDevice(device_id);
     cudaStream_t stream{};
     cudaStreamCreate(&stream);
 
@@ -261,7 +263,7 @@ Once the tree model is available as a Treelite object, pass it to the
         nvforest::index_type{},
         std::nullopt,
         nvforest::device_type::gpu,
-        0,
+        device_id,
         stream);
 
 Now that the tree model is fully imported into nvForest, let's run inference:
@@ -282,9 +284,8 @@ Now that the tree model is fully imported into nvForest, let's run inference:
     // Use output
     // ...
 
-    // Clean up
-    cudaStreamDestroy(stream);
-    // ... also free input, output buffers
+    // Clean up by destroying stream
+    // Also free input, output buffers
 
 Use a stream associated with the same device as the model. Re-use the stream for import and
 inference to preserve the ordering between model initialization and prediction without a global
